@@ -1,0 +1,20 @@
+[user]
+	email = andresherranz999@gmail.com
+	name = AndresHG
+[alias]
+  fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+  ## "checkout fzf" checkout with fzf
+  cof = "!checkout_fzf() { git branch | fzf | xargs git checkout; }; checkout_fzf"
+  oldcb = "!git branch --all | grep -v '^[*+]' | awk '{print $1}' | fzf -0 --preview 'git show --color=always {-1}' | sed 's/remotes\\/origin\\///g' | xargs -r git checkout"
+  ## "add fzf" add multiple files with fzf
+  af = "!add_fzf() { git status -s | awk '{print $2}' | fzf -m | xargs git add; }; add_fzf"
+  # Add files using FZF and immediately commit them
+  afmend = "!add_fzf_amend() { git status -s | awk '{print $2}' | fzf -m | xargs git add && git amend; }; add_fzf_amend"
+  # Choose staged files to reset, use <tab> to select multiple. Preview shows cached diff
+  resetm = "!git diff --name-only --cached | fzf -0 -m --preview 'git diff --color=always {-1}' | xargs -r git reset"
+  cb = "!git checkout $(git branch --all --color \
+  --format='%(HEAD) %(color:yellow)%(refname:short) %(color:green)%(committerdate:short) %(color:blue)%(subject)' \
+| fzf --ansi --reverse --no-sort \
+| sed 's/^[* ]*//' \
+| awk '{print $1}')"
+  fgc = "!~/.git-scripts/fzf_git_commits.sh fgc"
